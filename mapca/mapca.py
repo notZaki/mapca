@@ -227,6 +227,7 @@ class MovingAveragePCA:
         self.n_features_ = ppca.n_features_
         self.n_samples_ = ppca.n_samples_
         self.noise_variance_ = ppca.noise_variance_
+        self.u = np.dot(np.dot(X, self.components_.T), np.diag(1.0 / self.explained_variance_))
 
     def fit(self, X, shape_3d, mask_vec):
         """Fit the model with X.
@@ -265,7 +266,7 @@ class MovingAveragePCA:
         which ignores explained variance.
         """
         self._fit(X, shape_3d, mask_vec)
-        return self.transform(X)
+        return self.u
 
     def transform(self, X):
         """Apply dimensionality reduction to X.
